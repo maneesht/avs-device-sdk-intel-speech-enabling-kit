@@ -97,11 +97,11 @@ bool HardwareKeywordDetector::init() {
     }
 
     m_isShuttingDown = false;
-    m_detectionThread = std::thread(&HardwareKeywordDetector::detectionLoop, this);
+    m_detectionThread = std::thread(&HardwareKeywordDetector::detectionLoop, this); // Author: mtewani starts detection thread
     return true;
 }
 
-void HardwareKeywordDetector::detectionLoop() {
+void HardwareKeywordDetector::detectionLoop() { // Author: mtewani starts detection
     std::unique_ptr<KeywordDetection> detection;
     int streamIdx = 0;
 
@@ -110,7 +110,7 @@ void HardwareKeywordDetector::detectionLoop() {
         KeyWordDetectorStateObserverInterface::KeyWordDetectorState::ACTIVE);
 
     while(!m_isShuttingDown) {
-        detection = m_controller->read(m_timeout);
+        detection = m_controller->read(m_timeout); // Author: mtewani get voice and ambient values here (?)
 
         // If detection if @c nullptr, then a timeout occurred
         if(!detection) {
@@ -134,7 +134,7 @@ void HardwareKeywordDetector::detectionLoop() {
 
         notifyKeyWordObservers(
                 m_stream, detection->getKeyword(),
-                begin, end);
+                begin, end, detection->getESPData());
     }
 }
 

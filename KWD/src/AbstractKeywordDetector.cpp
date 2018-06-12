@@ -68,9 +68,14 @@ void AbstractKeywordDetector::notifyKeyWordObservers(
     std::shared_ptr<AudioInputStream> stream,
     std::string keyword,
     AudioInputStream::Index beginIndex,
-    AudioInputStream::Index endIndex) const {
+    AudioInputStream::Index endIndex,
+    ESPData esp_data) const { //temporarily change to DummyData?
     std::lock_guard<std::mutex> lock(m_keyWordObserversMutex);
     for (auto keyWordObserver : m_keyWordObservers) {
+        if(keywordObserver->m_espProvider) {
+            keywordObserver->m_espProvider.setAmbientEnergy(to_string(esp_data.ambientEnergy));
+            keywordObserver->m_espProvider.setVoiceEnergy(to_string(esp_data.voiceEnergy));
+        }
         keyWordObserver->onKeyWordDetected(stream, keyword, beginIndex, endIndex);
     }
 }

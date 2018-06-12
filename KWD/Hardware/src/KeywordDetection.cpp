@@ -18,8 +18,8 @@ std::unique_ptr<KeywordDetection> KeywordDetection::create(
             new KeywordDetection(begin, end, keyword));
 }
 
-KeywordDetection::KeywordDetection(int begin, int end, std::string keyword) :
-    m_begin(begin), m_end(end), m_keyword(keyword)
+KeywordDetection::KeywordDetection(int begin, int end, std::string keyword, ESPData espdata) :
+    m_begin(begin), m_end(end), m_keyword(keyword), m_espData(espdata)
 {}
 
 int KeywordDetection::getBegin() {
@@ -32,6 +32,9 @@ int KeywordDetection::getEnd() {
 
 std::string KeywordDetection::getKeyword() {
     return m_keyword;
+}
+ESPData KeywordDetection::getESPData() {
+    return m_espData;
 }
 
 } // kwd

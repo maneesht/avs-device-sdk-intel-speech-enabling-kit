@@ -30,7 +30,7 @@ public:
      * @return @c KeywordDetection, else nullptr otherwise
      */
     static std::unique_ptr<KeywordDetection> create(
-            int begin, int end, std::string keyword);
+            int begin, int end, std::string keyword, ESPData espData);
 
     /// Get the beginning index
     int getBegin();
@@ -40,6 +40,7 @@ public:
 
     /// Get the keyword that was detected
     std::string getKeyword();
+    ESPData getESPData();
 
 private:
     /**
@@ -53,6 +54,7 @@ private:
     
     int m_begin;
     int m_end;
+    ESPData m_espdata; 
     std::string m_keyword;
 };
 
