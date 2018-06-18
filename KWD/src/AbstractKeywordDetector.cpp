@@ -16,7 +16,6 @@
 #include <AVSCommon/Utils/Logger/Logger.h>
 
 #include "KWD/AbstractKeywordDetector.h"
-#include <AIP/ESPData.h>
 
 namespace alexaClientSDK {
 namespace kwd {

@@ -18,8 +18,8 @@
 
 #include <limits>
 
-#include <ESP/DummyESPDataProvider.h>
 #include "AVSCommon/AVS/AudioInputStream.h"
+#include <ESP/ESPDataProviderInterface.h>
 
 namespace alexaClientSDK {
 namespace avsCommon {

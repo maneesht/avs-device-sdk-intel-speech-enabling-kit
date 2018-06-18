@@ -20,6 +20,7 @@
 #include <unordered_set>
 
 #include <AVSCommon/Utils/AudioFormat.h>
+#include <AIP/ESPData.h>
 #include <AVSCommon/AVS/AudioInputStream.h>
 #include <AVSCommon/SDKInterfaces/KeyWordObserverInterface.h>
 #include <AVSCommon/SDKInterfaces/KeyWordDetectorStateObserverInterface.h>
@@ -91,7 +92,7 @@ protected:
         std::string keyword,
         avsCommon::avs::AudioInputStream::Index beginIndex,
         avsCommon::avs::AudioInputStream::Index endIndex,
-        capabilityAgents::aip::ESPData espdata) const;
+        capabilityAgents::aip::ESPData espdata = capabilityAgents::aip::ESPData::EMPTY_ESP_DATA) const;
 
     /**
      * Notifies all keyword detector state observers of state changes in the derived detector.
