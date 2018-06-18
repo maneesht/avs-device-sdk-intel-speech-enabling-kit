@@ -18,6 +18,7 @@
 
 #include <limits>
 
+#include <ESP/DummyESPDataProvider.h>
 #include "AVSCommon/AVS/AudioInputStream.h"
 
 namespace alexaClientSDK {
@@ -56,6 +57,7 @@ public:
         std::string keyword,
         avs::AudioInputStream::Index beginIndex = UNSPECIFIED_INDEX,
         avs::AudioInputStream::Index endIndex = UNSPECIFIED_INDEX) = 0;
+    std::shared_ptr<esp::ESPDataProviderInterface> m_espProvider = NULL;
 };
 
 }  // namespace sdkInterfaces

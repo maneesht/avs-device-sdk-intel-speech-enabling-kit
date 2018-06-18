@@ -61,7 +61,8 @@ public:
      * Notifies all KeyWordObservers with dummy values.
      */
     void sendKeyWordCallToObservers() {
-        notifyKeyWordObservers(nullptr, "ALEXA", 0, 0);
+        capabilityAgents::aip::ESPData espdata;
+        notifyKeyWordObservers(nullptr, "ALEXA", 0, 0, espdata);
     };
 
     /**

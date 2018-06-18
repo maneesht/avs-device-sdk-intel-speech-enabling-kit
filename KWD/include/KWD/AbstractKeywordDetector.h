@@ -90,7 +90,8 @@ protected:
         std::shared_ptr<avsCommon::avs::AudioInputStream> stream,
         std::string keyword,
         avsCommon::avs::AudioInputStream::Index beginIndex,
-        avsCommon::avs::AudioInputStream::Index endIndex) const;
+        avsCommon::avs::AudioInputStream::Index endIndex,
+        capabilityAgents::aip::ESPData espdata) const;
 
     /**
      * Notifies all keyword detector state observers of state changes in the derived detector.

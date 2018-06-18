@@ -1,1 +1,1 @@
-discover_unit_tests("${KWD_SOURCE_DIR}/include" KWD)
+discover_unit_tests("${KWD_SOURCE_DIR}/include" KWD AIP)

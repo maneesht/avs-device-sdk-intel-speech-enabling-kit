@@ -36,7 +36,6 @@ static const std::string TAG("AlsaHardwareController");
 # define debug_print(...) do {} while (0)
 #endif
 
-static char *card = "0";
 
 static snd_ctl_t *ctl_handle;
 static snd_output_t *snd_output;
@@ -44,7 +43,6 @@ static snd_output_t *snd_output;
 static snd_ctl_elem_info_t *ctl_info;
 static snd_ctl_elem_id_t *ctl_id;
 
-static char *ctl_name;
 static unsigned int *ctl_value_buffer;
 
 char errmsg[256];
@@ -54,7 +52,7 @@ char errmsg[256];
 
 static void err_exit(const char *err)
 {
-	fprintf(stderr, "Error (%s)\n%s", card, err);
+	//fprintf(stderr, "Error (%s)\n%s", card, err);
 	if (ctl_handle)
 		snd_ctl_close(ctl_handle);
 	if (ctl_value_buffer)
@@ -62,17 +60,17 @@ static void err_exit(const char *err)
 	exit(-1);
 }
 
-ESPData s1000_dump_bytes(const void *b, int size)
+capabilityAgents::aip::ESPData s1000_dump_bytes(const void *b, int size)
 {
 	int i = 0;
-	const unsigned int *bytes = b;
+	const unsigned int *bytes = (unsigned int *) b;
 
 	debug_print(stdout, "\n%.4x: ", i);
 	debug_print(stdout, "0x%.8x ", bytes[i]);
 	debug_print(stdout, "0x%.8x ", bytes[i+1]);
     unsigned int ambient = bytes[2]; //may get an indexOutOfBounds/SegFault
     unsigned int voice = bytes[3];
-    return new ESPData(std::to_string(voice), std::to_string(ambient));
+    return capabilityAgents::aip::ESPData(std::to_string(voice), std::to_string(ambient));
 }
 
 static int ctl_is_bytes_tlv(void)
@@ -99,7 +97,7 @@ static int s1000_print_event(int card, snd_ctl_t *ctl)
 	    SND_CTL_EVENT_ELEM)
 		return 0;
 
-	if (card >= 0)
+	if (card >= 0) {
 		printf("card %d, ", card);
 		printf("#%d (%i,%i,%i,%s,%i)",
 	       	snd_ctl_event_elem_get_numid(event),
@@ -108,6 +106,7 @@ static int s1000_print_event(int card, snd_ctl_t *ctl)
 	       	snd_ctl_event_elem_get_subdevice(event),
 	       	snd_ctl_event_elem_get_name(event),
 	       	snd_ctl_event_elem_get_index(event));
+    }
 
 	mask = snd_ctl_event_elem_get_mask(event);
 	if (mask == SND_CTL_EVENT_MASK_REMOVE) {
@@ -127,7 +126,7 @@ static int s1000_print_event(int card, snd_ctl_t *ctl)
 	return 0;
 }
 
-static ESPData s1000_tlv_monitor(void)
+static capabilityAgents::aip::ESPData s1000_tlv_monitor(void)
 {
 	int err = 0;
 	int read_size = snd_ctl_elem_info_get_count(ctl_info);
@@ -143,7 +142,7 @@ static ESPData s1000_tlv_monitor(void)
 
 	snd_ctl_poll_descriptors(ctl_handle, &fds[0], 1);
 
-poll:
+//poll:
 	printf("KP notification polling\n");
 	err = poll(fds, 1, -1);
 	if (err <= 0) {
@@ -161,16 +160,16 @@ poll:
 
 	if (!ctl_is_bytes_tlv()) {
 		sprintf(errmsg, "set tlv: not a bytes tlv control");
-		err_exit(errmsg);
+		//err_exit(errmsg);
 	}
 
-	read_tlv = calloc(1, read_size+8);
+	read_tlv = (unsigned int *) calloc(1, read_size+8);
 
 	debug_print(stdout, "\nTLV READ - %d bytes", read_size);
 	err = snd_ctl_elem_tlv_read(ctl_handle, ctl_id, read_tlv, read_size);
 	if (err) {
 		sprintf(errmsg, "ctl tlv read: %s", strerror(err));
-		err_exit(errmsg);
+		//err_exit(errmsg);
 	}
 	auto esp_data = s1000_dump_bytes(read_tlv, read_size);
 	//goto poll; /* infinite loop to poll device, most likely not needed*/
@@ -179,7 +178,7 @@ poll:
     return esp_data;
 }
 
-static void s1000_setup_mixer_ctl(char *idstr)
+static void s1000_setup_mixer_ctl(const char *idstr)
 {
 	int err;
 
@@ -266,12 +265,14 @@ std::unique_ptr<KeywordDetection> AlsaHardwareController::read(
 
 	char dev_name[128];
 
-	card = "0";
+	const char *card = "0";
+    const char *ctl_name;
 	ctl_name = "name=KP Detect Control";
 	snprintf(dev_name, 127, "hw:%i", snd_card_get_index(card));
 	dev_name[127] = '\0';
 	snd_output_stdio_attach(&snd_output, stdout, 0);
 
+	int err = 0;
 	err = snd_ctl_open(&ctl_handle, dev_name, 0);
 	if (err) {
 		sprintf(errmsg, "control open: %s", strerror(err));

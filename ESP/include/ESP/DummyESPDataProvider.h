@@ -29,7 +29,7 @@ namespace esp {
  */
 class DummyESPDataProvider
         : public ESPDataProviderInterface
-        , public ESPDataModifierInterface {
+        {
 public:
     /**
      * DummyESPDataProvider Constructor.

@@ -16,6 +16,7 @@
 #include <AVSCommon/Utils/Logger/Logger.h>
 
 #include "KWD/AbstractKeywordDetector.h"
+#include <AIP/ESPData.h>
 
 namespace alexaClientSDK {
 namespace kwd {
@@ -69,12 +70,12 @@ void AbstractKeywordDetector::notifyKeyWordObservers(
     std::string keyword,
     AudioInputStream::Index beginIndex,
     AudioInputStream::Index endIndex,
-    ESPData esp_data) const { //temporarily change to DummyData?
+    capabilityAgents::aip::ESPData esp_data) const {
     std::lock_guard<std::mutex> lock(m_keyWordObserversMutex);
     for (auto keyWordObserver : m_keyWordObservers) {
-        if(keywordObserver->m_espProvider) {
-            keywordObserver->m_espProvider.setAmbientEnergy(to_string(esp_data.ambientEnergy));
-            keywordObserver->m_espProvider.setVoiceEnergy(to_string(esp_data.voiceEnergy));
+        if(keyWordObserver->m_espProvider != NULL) {
+            keyWordObserver->m_espProvider -> setAmbientEnergy(esp_data.getAmbientEnergy());
+            keyWordObserver->m_espProvider -> setVoiceEnergy(esp_data.getVoiceEnergy());
         }
         keyWordObserver->onKeyWordDetected(stream, keyword, beginIndex, endIndex);
     }

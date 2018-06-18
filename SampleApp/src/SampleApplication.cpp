@@ -586,7 +586,8 @@ bool SampleApplication::initialize(
 
     // This observer is notified any time a keyword is detected and notifies the DefaultClient to start recognizing.
     auto keywordObserver =
-        std::make_shared<alexaClientSDK::sampleApp::KeywordObserver>(client, wakeWordAudioProvider, espProvider);
+        std::make_shared<alexaClientSDK::sampleApp::KeywordObserver>(client, wakeWordAudioProvider);
+    keywordObserver->m_espProvider = espProvider;
 
 #if defined(KWD_KITTAI)
     m_keywordDetector = alexaClientSDK::kwd::KittAiKeyWordDetector::create(

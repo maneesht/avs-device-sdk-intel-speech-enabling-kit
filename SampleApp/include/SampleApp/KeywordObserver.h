@@ -57,8 +57,6 @@ private:
     /// The audio provider.
     capabilityAgents::aip::AudioProvider m_audioProvider;
 
-    /// Echo Spatial Perception (ESP) provider.
-    std::shared_ptr<esp::ESPDataProviderInterface> m_espProvider;
 };
 
 }  // namespace sampleApp

@@ -65,6 +65,8 @@ target_include_directories(AVSCommon PUBLIC
     "${AVSCommon_SOURCE_DIR}/AVS/include"
     "${AVSCommon_SOURCE_DIR}/SDKInterfaces/include"
     "${AVSCommon_SOURCE_DIR}/Utils/include"
+    "${AIP_SOURCE_DIR}/include"
+    "${ESP_SOURCE_DIR}/include"
     "${RAPIDJSON_INCLUDE_DIR}"
     ${CURL_INCLUDE_DIRS})
 

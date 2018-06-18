@@ -12,14 +12,14 @@ namespace alexaClientSDK {
 namespace kwd {
 
 std::unique_ptr<KeywordDetection> KeywordDetection::create(
-        int begin, int end, std::string keyword) 
+        int begin, int end, std::string keyword, capabilityAgents::aip::ESPData esp_data) 
 {
     return std::unique_ptr<KeywordDetection>(
-            new KeywordDetection(begin, end, keyword));
+            new KeywordDetection(begin, end, keyword, esp_data));
 }
 
-KeywordDetection::KeywordDetection(int begin, int end, std::string keyword, ESPData espdata) :
-    m_begin(begin), m_end(end), m_keyword(keyword), m_espData(espdata)
+KeywordDetection::KeywordDetection(int begin, int end, std::string keyword, capabilityAgents::aip::ESPData espdata) :
+    m_begin(begin), m_end(end), m_keyword(keyword), m_espdata(espdata)
 {}
 
 int KeywordDetection::getBegin() {
@@ -33,8 +33,8 @@ int KeywordDetection::getEnd() {
 std::string KeywordDetection::getKeyword() {
     return m_keyword;
 }
-ESPData KeywordDetection::getESPData() {
-    return m_espData;
+capabilityAgents::aip::ESPData KeywordDetection::getESPData() {
+    return m_espdata;
 }
 
 } // kwd

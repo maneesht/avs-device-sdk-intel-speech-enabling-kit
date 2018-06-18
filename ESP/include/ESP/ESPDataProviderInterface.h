@@ -16,6 +16,7 @@
 #define ALEXA_CLIENT_SDK_ESP_INCLUDE_ESP_ESPDATAPROVIDERINTERFACE_H_
 
 #include <AIP/ESPData.h>
+#include "ESPDataModifierInterface.h"
 
 namespace alexaClientSDK {
 namespace esp {
@@ -23,7 +24,7 @@ namespace esp {
 /**
  * The ESPDataProviderInterface should be used to provide ESPData.
  */
-class ESPDataProviderInterface {
+class ESPDataProviderInterface : public ESPDataModifierInterface {
 public:
     /**
      * Destructor

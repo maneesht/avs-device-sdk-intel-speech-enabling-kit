@@ -25,8 +25,8 @@ KeywordObserver::KeywordObserver(
     capabilityAgents::aip::AudioProvider audioProvider,
     std::shared_ptr<esp::ESPDataProviderInterface> espProvider) :
         m_client{client},
-        m_audioProvider{audioProvider},
-        m_espProvider{espProvider} {
+        m_audioProvider{audioProvider}
+        {
 }
 
 void KeywordObserver::onKeyWordDetected(

@@ -11,6 +11,7 @@
 
 #include <string>
 #include <memory>
+#include <AIP/ESPData.h>
 
 namespace alexaClientSDK {
 namespace kwd {
@@ -30,7 +31,7 @@ public:
      * @return @c KeywordDetection, else nullptr otherwise
      */
     static std::unique_ptr<KeywordDetection> create(
-            int begin, int end, std::string keyword, ESPData espData);
+            int begin, int end, std::string keyword, capabilityAgents::aip::ESPData espData);
 
     /// Get the beginning index
     int getBegin();
@@ -40,7 +41,7 @@ public:
 
     /// Get the keyword that was detected
     std::string getKeyword();
-    ESPData getESPData();
+    capabilityAgents::aip::ESPData getESPData();
 
 private:
     /**
@@ -50,12 +51,12 @@ private:
      * @param end Index where the keyword ends
      * @param keyword The keyword that was recognized
      */
-    KeywordDetection(int begin, int end, std::string keyword);
+    KeywordDetection(int begin, int end, std::string keyword, capabilityAgents::aip::ESPData esp);
     
     int m_begin;
     int m_end;
-    ESPData m_espdata; 
     std::string m_keyword;
+    capabilityAgents::aip::ESPData m_espdata; 
 };
 
 } // kwd
