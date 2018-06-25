@@ -211,7 +211,7 @@ std::shared_ptr<AlsaHardwareController> AlsaHardwareController::create(
 }
 
 std::unique_ptr<KeywordDetection> AlsaHardwareController::read(
-        std::chrono::milliseconds timeout) { //this is where the data for the keyword gets loaded
+        std::chrono::milliseconds timeout) {
     // Get the file descriptor
     struct pollfd fds[1];
     snd_ctl_poll_descriptors(m_ctl, &fds[0], 1);
@@ -255,9 +255,6 @@ std::unique_ptr<KeywordDetection> AlsaHardwareController::read(
     uint32_t value = snd_ctl_elem_value_get_integer(control, 0);
     uint16_t* payload = reinterpret_cast<uint16_t*>(&value);
     
-    //start grabbing the information from the TLV array and decode to get the ESP
-    //Also, change the detection type to expose the ESP
-
     ACSDK_DEBUG(LX("read")
             .d("event", "keywordDetection")
             .d("begin", payload[0])
